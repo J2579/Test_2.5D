@@ -21,7 +21,7 @@ public class Game implements Tickable {
 	public static Game instance;
 	
 	/** The images the game needs. TODO: Put these in a data structure */
-	public BufferedImage grid; //TODO: MAKE. THIS. PRIVATE
+	public BufferedImage grid; 
 	public BufferedImage ball;
 	
 	
@@ -96,6 +96,15 @@ public class Game implements Tickable {
 	 */
 	public int[] getPlayerPosition() {
 		return player.get3DScreenPosition();
+	}
+	
+	/**
+	 * Returns the player object
+	 * 
+	 * @return The player
+	 */
+	public Player getPlayer() {
+		return player;
 	}
 	
 	/**

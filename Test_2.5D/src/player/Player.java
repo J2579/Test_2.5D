@@ -2,6 +2,12 @@ package player;
 
 import java.awt.event.KeyEvent;
 
+import combat.Attack;
+import combat.AttackState;
+import combat.CombatDamageCalculator;
+import combat.CombatReady;
+import combat.DamageType;
+import combat.DefaultDamageCalculator;
 import physics.PhysicsController;
 import physics.PhysicsController.Vector;
 import util.Helper;
@@ -22,9 +28,18 @@ public class Player implements Tickable {
 	private static final double DEFAULT_X_SPEED = 5;
 	private static final double DEFAULT_Y_SPEED = 5;
 	private static final double DEFAULT_Z_SPEED = 5;
+
+	/** Attack */
+	private Attack[] atkList;
+
+	/** Player name */
+	private String name;
+	
+	/** Combat */
+	private CombatReady playerCombatNode;
+	
 	
 	/** Keyboard */
-	
 	private boolean[] keyboardState = {false, false, false, false, false, false};
 	private int[] keyBindings = {-1, -1, -1, -1, -1, -1};
 	
@@ -38,6 +53,8 @@ public class Player implements Tickable {
 	private static final int DOWN_KEY = 5;
 	
 	private boolean keyboardInputOccurred = false;
+
+	
 	
 	/** DEBUG */
 	private void setBindings() {
@@ -51,9 +68,47 @@ public class Player implements Tickable {
 	 * Instantiates player.
 	 */
 	public Player() {
-		//Instantiate here.
+		
+		//ID
+		this.name = "John";
+		
+		//Combat
+		playerCombatNode = new CombatReady(null);
+		playerCombatNode.setHp(50);
+		playerCombatNode.setMaxHP(50);
+		playerCombatNode.setMp(20); 
+		playerCombatNode.setMaxMP(20);
+		playerCombatNode.setAtk(5);
+		playerCombatNode.setDef(5);
+		playerCombatNode.setIntl(5);
+		playerCombatNode.setMdef(3);
+		playerCombatNode.setSpeed(10);
+		
+		playerCombatNode.setAttackList(new Attack[] {
+				new Attack("Stab", 5, 0, DamageType.PHYSICAL, null, null), 
+				new Attack("Fireball", 15, 10, DamageType.MAGICAL, null, null)
+		});
+		
+		playerCombatNode.setIsPlayer(true);
+		playerCombatNode.setName(this.name);
+		
+		
+		
+		
+		//Key Bindings
 		setBindings();
+		
+		//Physics
 		physicsController = new PhysicsController(55,0,-255,DEFAULT_X_SPEED,DEFAULT_Y_SPEED,DEFAULT_Z_SPEED);
+	}
+	
+	/**
+	 * Returns the player combat object
+	 * 
+	 * @return The player combat object
+	 */
+	public CombatReady getPlayerCombatActor() {
+		return playerCombatNode;
 	}
 
 	/**

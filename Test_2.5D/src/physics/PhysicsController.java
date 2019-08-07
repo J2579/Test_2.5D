@@ -21,7 +21,13 @@ public class PhysicsController implements Tickable {
 	//Position on 2-D Plane (The screen)
 	private double screenX, screenY;
 	
-	/** Screen Movement Constants */
+	
+	/***********************************************************************
+	 *  Screen Movement Constants. e.g. for ZXCONSTANT, moving 1 unit on   *
+	 *  the 'Z' axis "in game" will move the object cos(60) units 'X' on   *
+	 *  the screen. 													   *
+	 ***********************************************************************/
+	
 	private static final double XXCONSTANT = (Math.sin(70)+0.3) * -1;
 	private static final double XYCONSTANT = (Math.cos(70));
 	private static final double YXCONSTANT = 0;
@@ -72,11 +78,13 @@ public class PhysicsController implements Tickable {
 	 */
 	public void onTick() {
 		
-		move();
+		if(!move()) {
+			//Delegate 'Game' to play sound "hitWall.wav", etc.
+		}
 	}
 	
 	/**
-	 * Moves the Physics Object
+	 * Moves the Physics Object.
 	 * 
 	 * @return True if the object can be moved, false if a collision would occur.
 	 */
@@ -103,7 +111,6 @@ public class PhysicsController implements Tickable {
 	 * Updates screenX and screenY upon movement.
 	 */
 	private void updateScreenPosition(double xChange, double yChange, double zChange) {
-		
 		
 		//Set the new screen X-Coordinate.
 		screenX += xChange * XXCONSTANT;
@@ -137,7 +144,6 @@ public class PhysicsController implements Tickable {
 	/**
 	 * Checks collision against all objects on the current map.
 	 * 
-	 * @param vector The adjustment to the position to be checked
 	 * @return True if a collision occurs, false if otherwise.
 	 */
 	private boolean checkCollideOnCurrentMap() {

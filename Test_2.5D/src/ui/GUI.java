@@ -80,8 +80,6 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		Container frame = getContentPane();
 		frame.add(gameWindow, BorderLayout.CENTER);
 		frame.add(quit, BorderLayout.SOUTH);
-		
-		
 
 		//Init Game Components
 		game = Game.getInstance();
@@ -92,13 +90,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		//Create the GFX buffer
 		gameWindow.createAndSetBuffer();
 		
-		//Create and start the game clock (0.017s timer = race condition)
-		
+		//Create and start the game clock AFTER all components created (race condition = bad)
 		tick = new Timer(17,this); //1 Tick / 0.017 Seconds ~ 60 Ticks / 1 Second 
 		tick.setRepeats(true);
 		tick.start();
-		
-		
 	}
 	
 	/**
@@ -119,12 +114,14 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 				System.out.println(game.getPlayerPosition()[0] + "," + game.getPlayerPosition()[1] + "," + game.getPlayerPosition()[2]);
 		
 			}
+			
+			requestFocus();
 		}
 		else if(ae.getSource() == quit) {
 			System.exit(0);
 		}
 		
-		requestFocus();
+		
 	}	
 		
 	

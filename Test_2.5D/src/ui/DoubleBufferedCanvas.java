@@ -17,12 +17,12 @@ import java.awt.image.BufferedImage;
 * objects to the screen.
 *
 * @author J2579
-* @version 1.0.1
-* @since 2019-07-20
+* @version 1.0.2
+* @since 2019-07-21
 */
 
 public abstract class DoubleBufferedCanvas extends Canvas {
-	/** Serialization UID */
+	/** Serial UID */
 	private static final long serialVersionUID = 1L;
 
 	/** Front Buffer */
@@ -71,11 +71,10 @@ public abstract class DoubleBufferedCanvas extends Canvas {
 	}
 	
 	/**
-	* This method takes the canvas, and creates and sets 
+	* Takes the canvas, and creates and sets 
 	* its BufferStrategy.
 	* 
-	* @precondition TemplateCanvas MUST be added to its container before this method is called! 
-	* @param tc The instance of TemplateCanvas the buffer is gotten from / set to.
+	* @precondition Canvas MUST be added to its container before this method is called! 
 	*/
 	public void createAndSetBuffer() {
 		try {
@@ -98,7 +97,7 @@ public abstract class DoubleBufferedCanvas extends Canvas {
 	}
 		
 	/**
-	* This method overrides the 'repaint' function normally called
+	* Overrides the 'repaint' function normally called
 	* by the Canvas whenever the frame is moved or resized - Instead,
 	* it now calls our desired repaint method.
 	*
@@ -118,7 +117,7 @@ public abstract class DoubleBufferedCanvas extends Canvas {
 	public abstract void draw(Graphics g);
 
 	/**
-	* This method is called to update the screen, and should be called on every 
+	* Update the screen, and should be called on every 
 	* program 'tick'. This method involves using Double-Buffering, where an image
 	* is drawn to memory (offscreen), and the memory is pasted onto the Canvas.
 	*/
@@ -133,16 +132,16 @@ public abstract class DoubleBufferedCanvas extends Canvas {
 		backBufferGFX.fillRect(0,0,width,height);
 			
 		//Use the abstract method 'draw' to edit the image on the Back-Buffer.
-		this.draw(backBufferGFX);
+		draw(backBufferGFX);
 			
 		//Create the Graphics of the Front-Buffer.
 		frontBufferGFX = frontBuffer.getDrawGraphics(); 
 			
-		//Draw the Back-Buffer to the Front-Buffer's Graphics. (This is the important part)
+		//Draw the Back-Buffer to the Front-Buffer's Graphics.
 		frontBufferGFX.drawImage(backBuffer,0,0,null);
 			
 		//If the Front-Buffer didn't mess up, 'show' the Front Buffer on the Canvas.
-		if(frontBuffer.contentsLost() == false)
+		if(!frontBuffer.contentsLost())
 			frontBuffer.show(); 
 		
 		//Dump the Front and Back-Buffer's Graphics.
